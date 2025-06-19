@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful and Colorful Styled Box</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+        .mainBox {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #31363F; 
+            overflow: hidden; 
+            text-align: start; 
+        }
+
+        
+        h1 {
+            color: #EEEEEE;
+            font-size: 3rem; 
+            font-weight: bold;
+            margin-bottom: 20px; 
+            text-align: center; 
+            transition: transform 0.3s ease-out, color 0.3s ease-out; 
+        }
+
+        
+        h1:hover {
+            transform: scale(1.15);
+            color: rgb(0, 70, 184); 
+        }
+
+        
+        .box {
+            height: 22rem;
+            width: 22rem;
+            margin-top: 35px;
+            background-color: #76ABAE; 
+            border: 2px solid black;
+            border-radius: 25%; 
+            color: #EEEEEE; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; 
+            font-size: x-large;
+            font-weight: 600; 
+            text-align: center; 
+            box-shadow: 8px 15px 15px rgba(0, 0, 0, 0.3); 
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            cursor: pointer; 
+            line-height: 1.5; 
+        }
+
+       
+        .box:hover {
+            background-color: #EEEEEE; 
+            transform: scale(1.15); 
+            box-shadow: 12px 30px 25px rgba(95, 175, 215, 0.8); 
+            color: rgb(0, 0, 0); 
+            border-color: rgb(95, 175, 215); 
+        }
+    </style>
+</head>
+<body>
+    <div class="mainBox">
+        <h1>STYLE BOX </h1>
+        <div class="box">
+            <p>
+                Hover over me<br>
+                and the title<br>
+                for a vibrant experience!
+            </p>
+        </div>
+    </div>
+</body>
+</html>
