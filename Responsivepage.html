@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Page Layout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        
+        :root {
+            --header-bg: linear-gradient(135deg, #FF6B6B, #F8CD47); /* Red-Orange to Yellow */
+            --nav-link-color: #fff;
+            --main-bg: rgba(255, 255, 255, 0.95);
+            --accent-color-1: #6BFF6B;
+            --accent-color-2: #6B6BFF; 
+            --text-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --rainbow-gradient: linear-gradient(90deg,
+                #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            
+            background: var(--rainbow-gradient);
+            background-size: 400% 400%; 
+            animation: rainbowBackground 15s ease infinite;
+        }
+
+        @keyframes rainbowBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box; 
+        }
+
+        
+        header {
+            background: var(--header-bg);
+            color: var(--nav-link-color);
+            padding: 1.5rem 2rem;
+            box-shadow: var(--box-shadow);
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; 
+            position: relative; 
+            z-index: 100; 
+        }
+
+        .site-title {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            background: linear-gradient(45deg, #FFF, #EEE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .site-title::before {
+            content: '✨';
+            position: absolute;
+            top: -5px;
+            left: -10px;
+            font-size: 0.8em;
+            animation: sparkle 1.5s infinite alternate;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .main-nav {
+            display: flex; 
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1.8rem;
+        }
+
+        .main-nav li a {
+            color: var(--nav-link-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            display: block; 
+        }
+
+        .main-nav li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease-in-out;
+            z-index: -1;
+        }
+
+        .main-nav li a:hover::before {
+            left: 0;
+        }
+
+        .main-nav li a:hover {
+            transform: translateY(-3px) scale(1.05);
+            color: var(--accent-color-1);
+            text-shadow: 0 0 8px rgba(255,255,255,0.7);
+        }
+
+       
+        .hamburger-menu {
+            display: none; 
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            width: 30px;
+            height: 24px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hamburger-menu span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--nav-link-color);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hamburger-menu.open span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger-menu.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        
+        main {
+            flex: 1; 
+            display: grid;
+            grid-template-columns: 3fr 1fr; 
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: var(--main-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .content-section, .sidebar {
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            background: linear-gradient(180deg, #fefefe, #e0e0e0); 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .content-section:hover, .sidebar:hover {
+            transform: translateY(-5px);
+        }
+
+        .content-section h1, .sidebar h2 {
+            color: var(--accent-color-2);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+            font-size: 1.8rem;
+            color: var(--accent-color-1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: block; 
+            padding: 5px 0;
+        }
+
+        .sidebar ul li a:hover {
+            color: var(--accent-color-2);
+            transform: translateX(5px);
+            text-shadow: 0 0 5px rgba(0,0,255,0.3);
+        }
+
+        .image-container {
+            text-align: center;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap; 
+
+        .image-item {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .image-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-item img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius);
+        }
+
+        .image-item-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-item:hover .image-item-caption {
+            opacity: 1;
+        }
+
+
+        
+        footer {
+            background: linear-gradient(45deg, #333, #555);
+            color: #eee;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        
+        .modal-overlay {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fff8dc, #ffe4e1); 
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative;
+            animation: modalPopIn 0.5s ease-out forwards;
+            border: 3px solid var(--accent-color-1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        @keyframes modalPopIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content h3 {
+            color: var(--accent-color-2);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .close-button {
+            background: var(--accent-color-1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .close-button:hover {
+            background: #4CAF50;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-button::before {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+
+       
+        @media (max-width: 992px) {
+            header {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .site-title {
+                font-size: 1.8rem;
+            }
+
+            .main-nav {
+                gap: 1.2rem;
+            }
+
+            .main-nav li a {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            main {
+                grid-template-columns: 2fr 1fr; 
+                padding: 1.5rem;
+                margin: 1.5rem auto;
+                gap: 1.5rem;
+            }
+
+            .content-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .sidebar h2 {
+                font-size: 1.6rem;
+            }
+
+            .content-section, .sidebar {
+                padding: 1.5rem;
+            }
+        }
+
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: row; 
+                justify-content: space-between;
+                padding: 1rem 1.2rem;
+            }
+
+            .site-title {
+                font-size: 1.6rem;
+            }
+
+            .main-nav {
+                display: none; 
+                flex-direction: column; 
+                width: 100%;
+                background: linear-gradient(180deg, #FF6B6B, #F8CD47); 
+                position: absolute; 
+                top: 100%; 
+                left: 0;
+                padding: 1rem 0;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                border-bottom-left-radius: var(--border-radius);
+                border-bottom-right-radius: var(--border-radius);
+                transform: translateY(-10px); 
+                opacity: 0; 
+                transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            }
+
+            .main-nav.active {
+                display: flex;
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .main-nav li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .main-nav li a {
+                padding: 0.8rem 1rem;
+                border-radius: 0; 
+            }
+
+            .hamburger-menu {
+                display: flex; 
+            }
+
+            main {
+                grid-template-columns: 1fr; 
+                padding: 1rem;
+                margin: 1rem auto;
+                gap: 1rem;
+            }
+
+            .content-section h1 {
+                font-size: 2rem;
+            }
+
+            .sidebar h2 {
+                font-size: 1.5rem;
+            }
+
+            .image-container {
+                flex-direction: column; 
+            }
+
+            .image-item {
+                max-width: 90%; 
+            }
+
+            footer {
+                padding: 1rem;
+                margin-top: 1rem;
+            }
+        }
+
+       
+        @media (max-width: 480px) {
+            header {
+                padding: 0.8rem 1rem;
+            }
+
+            .site-title {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 0.8rem;
+                margin: 0.8rem auto;
+            }
+
+            .content-section, .sidebar {
+                padding: 1rem;
+            }
+
+            .content-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .sidebar h2 {
+                font-size: 1.3rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+                width: 90%;
+            }
+
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
+
+            .modal-content p {
+                font-size: 0.95rem;
+            }
+
+            .close-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+   
+    <header>
+        <h1 class="site-title">🌈 Creative Hub 🎨</h1>
+        <nav>
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="main-nav" id="mainNav">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+   
+    <main>
+        
+        <section class="content-section">
+            <h1 id="home">Unleashing Creativity, One Pixel at a Time 🎨 🌟</h1>
+            <p>
+                Step into a world where imagination takes the lead and every design tells a story. 
+                We blend vibrant colors with seamless functionality to create experiences that leave a lasting impression.
+            </p>
+            <p>
+               Our mission is simple — to turn bold ideas into reality. Whether it's a stunning website or a captivating app, 
+               we breathe life into every project with passion, precision, and a touch of magic.
+            </p>
+
+            <h2>Featured Creations 🚀</h2>
+            <div class="image-container">
+                <div class="image-item">
+                    <img src="https://placehold.co/400x250/FF6B6B/FFFFFF?text=Project+Aurora" alt="Project Aurora">
+                    <div class="image-item-caption">A mesmerizing design for a futuristic app.</div>
+                </div>
+                <div class="image-item">
+                    <img src="https://placehold.co/400x250/6BFF6B/FFFFFF?text=Website+Revamp" alt="Website Revamp">
+                    <div class="image-item-caption">Transforming digital spaces into vibrant platforms.</div>
+                </div>
+                <div class="image-item">
+                    <img src="https://placehold.co/400x250/6B6BFF/FFFFFF?text=Interactive+Art" alt="Interactive Art">
+                    <div class="image-item-caption">Engaging art installations with user interaction.</div>
+                </div>
+            </div>
+            <p>
+                With a team of dedicated creators and developers, we don’t just build – we craft digital experiences 
+                that are tailor-made to reflect your vision, values, and uniqueness.
+            </p>
+        </section>
+
+       
+        <aside class="sidebar">
+            <h2 id="services">Our Specialties ✨</h2>
+            <ul>
+                <li><a href="#">Web Design & Development</a></li>
+                <li><a href="#">UI/UX Prototyping</a></li>
+                <li><a href="#">Graphic & Branding</a></li>
+                <li><a href="#">Digital Marketing Solutions</a></li>
+                <li><a href="#">Content Creation</a></li>
+                <li><a href="#">Custom Software</a></li>
+            </ul>
+
+            <h2 id="portfolio">Quick Links 🔗</h2>
+            <ul>
+                <li><a href="#">Client Testimonials</a></li>
+                <li><a href="#">Our Team</a></li>
+                <li><a href="#">Blog & Insights</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+
+            <p style="margin-top: 2rem;">
+                "Innovation distinguishes between a leader and a follower." - Steve Jobs
+            </p>
+        </aside>
+    </main>
+
+    
+    <footer>
+        <p>&copy; 2025 Creative Hub. All rights reserved. Designed with ❤️ and 🌈.</p>
+    </footer>
+
+   
+    <div class="modal-overlay" id="welcomeModal">
+        <div class="modal-content">
+            <h3>Greetings, Explorer! 👋</h3>
+            <p>
+                Welcome to our vibrant showcase! Prepare to be amazed by the fusion of design and technology.
+                We're thrilled to have you here!
+            </p>
+            <button class="close-button" id="closeModal">Let's Dive In!</button>
+        </div>
+    </div>
+
+    <script>
+        
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mainNav = document.getElementById('mainNav');
+
+        hamburgerMenu.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            hamburgerMenu.classList.toggle('open');
+        });
+
+        
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    hamburgerMenu.classList.remove('open');
+                }
+            });
+        });
+
+        
+        const welcomeModal = document.getElementById('welcomeModal');
+        const closeModalButton = document.getElementById('closeModal');
+
+        
+        window.onload = () => {
+            setTimeout(() => {
+                welcomeModal.classList.add('active');
+            }, 1000); 
+        };
+
+        closeModalButton.addEventListener('click', () => {
+            welcomeModal.classList.remove('active');
+        });
+
+       
+        welcomeModal.addEventListener('click', (event) => {
+            if (event.target === welcomeModal) {
+                welcomeModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
