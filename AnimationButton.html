@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Button</title>
+    <style>
+        
+        :root {
+            --glow-color: hsl(280, 100%, 70%);
+            --button-bg-start: hsl(210, 80%, 55%);
+            --button-bg-end: hsl(280, 90%, 50%);
+            --particle-size: 5px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a2e;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; 
+            position: relative; 
+        }
+
+        
+        .orb-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            bottom: -150px; 
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(40px);
+            animation: floatUp 25s infinite linear;
+        }
+
+       
+        .orb:nth-child(1) { left: 10%; animation-duration: 20s; background: #ffadad; }
+        .orb:nth-child(2) { left: 20%; animation-duration: 25s; animation-delay: 2s; background: #ffd6a5; }
+        .orb:nth-child(3) { left: 30%; animation-duration: 18s; animation-delay: 4s; background: #fdffb6; }
+        .orb:nth-child(4) { left: 40%; animation-duration: 22s; animation-delay: 1s; background: #caffbf; }
+        .orb:nth-child(5) { left: 50%; animation-duration: 30s; animation-delay: 5s; background: #9bf6ff; }
+        .orb:nth-child(6) { left: 60%; animation-duration: 15s; animation-delay: 3s; background: #a0c4ff; }
+        .orb:nth-child(7) { left: 70%; animation-duration: 28s; animation-delay: 0s; background: #bdb2ff; }
+        .orb:nth-child(8) { left: 80%; animation-duration: 19s; animation-delay: 6s; background: #ffc6ff; }
+        .orb:nth-child(9) { left: 90%; animation-duration: 26s; animation-delay: 2.5s; background: #fffffc; }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+
+        
+        .interactive-button {
+            position: relative; 
+            z-index: 1;
+            padding: 18px 36px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400% 400%;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            outline: none;
+            overflow: hidden; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d; 
+            will-change: transform, box-shadow;
+            animation: rainbow-flow 8s ease infinite;
+        }
+
+       
+        @keyframes rainbow-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        
+        .interactive-button:hover {
+            animation-play-state: paused; 
+            box-shadow:
+                0 0 20px rgba(255, 105, 180, 0.6), 
+                0 0 40px rgba(138, 43, 226, 0.5), 
+                0 0 60px rgba(0, 255, 255, 0.4), 
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+      
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: var(--particle-size);
+            height: var(--particle-size);
+            border-radius: 50%;
+            animation: particle-burst 0.8s ease-out forwards;
+            background-color: var(--particle-color);
+        }
+
+        @keyframes particle-burst {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+   <div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <button class="interactive-button">
+        Click Me
+        <div class="particle-container"></div>
+    </button>
+
+    <script>
+        const button = document.querySelector('.interactive-button');
+
+        
+        button.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = button.getBoundingClientRect();
+            const x = e.clientX - left - width / 2;
+            const y = e.clientY - top - height / 2;
+
+            
+            const rotateX = (y / height) * -30; 
+            const rotateY = (x / width) * 30;   
+
+            
+            button.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+
+
+        
+        button.addEventListener('click', (e) => {
+           
+            const { left, top } = button.getBoundingClientRect();
+            const x = e.clientX - left;
+            const y = e.clientY - top;
+
+            
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+
+         
+            button.appendChild(ripple);
+            setTimeout(() => {
+                ripple.remove();
+            }, 600); 
+           
+            createParticles(x, y);
+        });
+
+        
+        const particleContainer = button.querySelector('.particle-container');
+        const particleColors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#9bf6ff', '#a0c4ff', '#bdb2ff', '#ffc6ff'];
+
+        function createParticles(x, y) {
+            const particleCount = 20; 
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+               
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+
+                
+                particle.style.setProperty('--particle-color', particleColors[Math.floor(Math.random() * particleColors.length)]);
+
+               
+                const angle = Math.random() * 2 * Math.PI; 
+                const distance = Math.random() * 80 + 50;  
+                const destX = Math.cos(angle) * distance;
+                const destY = Math.sin(angle) * distance;
+
+               
+                particle.style.setProperty('--x', `${destX}px`);
+                particle.style.setProperty('--y', `${destY}px`);
+
+                
+                particleContainer.appendChild(particle);
+                setTimeout(() => {
+                    particle.remove();
+                }, 800); 
+            }
+        }
+    </script>
+</body>
+</html>
