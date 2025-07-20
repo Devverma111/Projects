@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Marvel Login</title>
+  <link rel="stylesheet" href="LoginPage.css" />
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg" alt="Marvel Logo">
+      </div>
+      <h2>Welcome Back, Hero!</h2>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <div id="error-msg"></div>
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+    </div>
+  </div>
+  <script src="LoginPage.js"></script>
+</body>
+</html>
